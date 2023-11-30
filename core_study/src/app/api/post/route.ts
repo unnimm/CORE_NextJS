@@ -18,32 +18,32 @@ export async function GET(req: Request) {
 //   return Response.json(data);
 // }
 
-// //데이터를 추가할 때
-// export async function POST(req: NextRequest) {
-//   const params = req.nextUrl.searchParams;
-//   const data = await db.team.create({
-//     data: {
-//       name: params.get("name") as string,
-//       department : params.get('department') as string,
-//     },
-//   });
-//   return Response.json(data)
-// }
-
-// id를 사용해서 데이터를 추가할 때
+//데이터를 추가할 때
 export async function POST(req: NextRequest) {
   const params = req.nextUrl.searchParams;
-  const data = await db.team.findMany({})
-  const id = data[data.length-1].id
-
-  const data2 = await db.team.create({
+  const data = await db.team.create({
     data: {
-      name: `${id}번째 글 입니다.`,
+      name: params.get("name") as string,
       department : params.get('department') as string,
     },
   });
-  return Response.json(data2)
+  return Response.json(data)
 }
+
+// // id를 사용해서 데이터를 추가할 때
+// export async function POST(req: NextRequest) {
+//   const params = req.nextUrl.searchParams;
+//   const data = await db.team.findMany({})
+//   const id = data[data.length-1].id
+
+//   const data2 = await db.team.create({
+//     data: {
+//       name: `${id}번째 글 입니다.`,
+//       department : params.get('department') as string,
+//     },
+//   });
+//   return Response.json(data2)
+// }
 
 //데이터를 수정할 때
 export async function PUT(req: NextRequest) {

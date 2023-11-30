@@ -2,15 +2,25 @@
 
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   const [posts, setPosts] = useState<object[]>([]);
+  const router = useRouter();
 
   const getPost = async () => {
     const res = await axios.get("/api/post");
     setPosts(res.data);
   };
 
+  const deletePost = async (id: String) =>{
+    const res = await axios.delete(`/api/post?id=${id}`).then(res=>{
+      console.log("삭제 성공")
+      axios.get("/api/post").then(response=>{
+        setPosts(response.data)
+      })
+    })
+  }
   useEffect(() => {
     getPost();
   }, []);
@@ -24,11 +34,13 @@ export default function Home() {
               <div key={post._id}>
                 <div>{post.name}</div>
                 <div>{post.department}</div>
+                <button onClick={()=>{deletePost(post.id)}}>❌</button>
               </div>
             </div>
           );
         })}
       </div>
+      <button onClick={()=>{return(router.push("/write"))}}>글쓰기</button>
     </>
   );
 }
