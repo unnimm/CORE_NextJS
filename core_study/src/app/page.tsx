@@ -11,19 +11,26 @@ export default function Home() {
   const getPost = async () => {
     const res = await axios.get("/api/post");
     setPosts(res.data);
+    // console.log(posts)
   };
 
-  const deletePost = async (id: String) =>{
-    const res = await axios.delete(`/api/post?id=${id}`).then(res=>{
-      console.log("삭제 성공")
-      axios.get("/api/post").then(response=>{
-        setPosts(response.data)
-      })
-    })
-  }
+  const deletePost = async (id: String) => {
+    const res = await axios.delete(`/api/post?id=${id}`).then((res) => {
+      console.log("삭제 성공");
+      axios.get("/api/post").then((response) => {
+        setPosts(response.data);
+        
+      });
+    });
+  };
+
   useEffect(() => {
     getPost();
   }, []);
+
+  useEffect(() => {
+    console.log(posts)
+  }, [posts])
 
   return (
     <>
@@ -31,16 +38,36 @@ export default function Home() {
         {posts.map((post: any) => {
           return (
             <div className="border border-rose-500 transition hover:bg-rose-500 ">
-              <div key={post._id}>
+              <div key={post.id}>
+                <div>{post.id}</div>
                 <div>{post.name}</div>
                 <div>{post.department}</div>
-                <button onClick={()=>{deletePost(post.id)}}>❌</button>
+                <button
+                  onClick={() => {
+                    deletePost(post.id);
+                  }}
+                >
+                  ❌
+                </button>
+                <button
+                  onClick={() => {
+                    router.push(`/edit/`+post.id)
+                  }}
+                >
+                  ✏️
+                </button>
               </div>
             </div>
           );
         })}
       </div>
-      <button onClick={()=>{return(router.push("/write"))}}>글쓰기</button>
+      <button
+        onClick={() => {
+          return router.push("/write");
+        }}
+      >
+        글쓰기
+      </button>
     </>
   );
 }

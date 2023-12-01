@@ -1,8 +1,7 @@
 import { db } from "@/app/lib/db";
 import { NextRequest } from "next/server";
-
 //데이터를 가져올 때
-export async function GET(req: Request) {
+export async function GET(req: NextRequest) {
   const data = await db.team.findMany({});
   return Response.json(data);
 }
@@ -56,6 +55,7 @@ export async function PUT(req: NextRequest) {
       },
       data : {
         name : params.get("name") as string, 
+        department : params.get("department") as string, 
       }
     }
   )
