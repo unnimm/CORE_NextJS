@@ -34,7 +34,7 @@ export default function Home() {
 
   return (
     <>
-      <div>
+      <div className="grid grid-cols-3">
         {posts.map((post: any) => {
           return (
             <div className="border border-rose-500 transition hover:bg-rose-500 ">
@@ -65,6 +65,7 @@ export default function Home() {
         onClick={() => {
           return router.push("/write");
         }}
+        className="w-[50px] h-[20px] bg-blue-200 text-xs rounded-md  hover:bg-blue-400 hover:scale-110 duration-150"
       >
         글쓰기
       </button>
